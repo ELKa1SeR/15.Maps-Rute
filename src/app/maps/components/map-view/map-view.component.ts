@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
+import {Map} from 'mapbox-gl';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.css'
 })
-export class MapViewComponent implements OnInit{
+export class MapViewComponent implements AfterViewInit{
+  @ViewChild('mapDiv')
+  mapDivElement!: ElementRef
 
   constructor( private placesService: PlacesService){}
 
-  ngOnInit(): void {
-   console.log(this.placesService.useLocation);
+  ngAfterViewInit(): void {
+    const map = new Map({
+      container: this.mapDivElement.nativeElement, // container ID
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      center: this.placesService.useLocation, // starting position [lng, lat]
+      zoom: 14, // starting zoom
+    });
 
   }
 
