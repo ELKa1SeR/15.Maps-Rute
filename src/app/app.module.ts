@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { MapScreenComponent } from './maps/screens/map-screen/map-screen.component';
 import { MapsModule } from './maps/maps.module';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -16,6 +14,8 @@ import { MapsModule } from './maps/maps.module';
     BrowserModule,
     AppRoutingModule,
     MapsModule,
+    HttpClientModule
+
 
 
   ],
