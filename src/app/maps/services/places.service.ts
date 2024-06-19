@@ -10,5 +10,27 @@ export class PlacesService {
   get isUserLocationReady(): boolean{
     return !!this.useLocation  // se hace la doble negación para convertirlo en true
   }
-  constructor() { }
+
+  constructor() {
+    this.getUserLocation();
+   }
+
+  getUserLocation(): Promise<[number, number]>{
+    return new Promise ( (resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        //primero longitud y luego latitud es por Mapbox que trabaja así
+        ( {coords}) => {
+          this.useLocation = [coords.longitude, coords.latitude];
+          resolve(this.useLocation);
+        },
+        ( err ) => {
+          alert('No se pudo obtener lqa geocalizacion')
+          console.log(err);
+          reject();
+        }
+      )
+    })
+  }
+
+
 }
