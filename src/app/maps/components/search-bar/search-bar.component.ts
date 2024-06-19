@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class SearchBarComponent {
 
+  // para controlar las llamadas http
+  private debounceTimer?: NodeJS.Timeout;
+
+onQuerychangued(query: string = '') {
+if ( this.debounceTimer) clearTimeout(this.debounceTimer)
+
+  this.debounceTimer= setTimeout(() =>{
+    console.log('Mandar este query: query');
+  }, 500)
+}
+
 }
