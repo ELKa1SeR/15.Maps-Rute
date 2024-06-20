@@ -42,41 +42,36 @@ export class PlacesService {
     })
   }
 
-  getPlacesByQuery( query: string = ''){
-    //todo: evaluar cuando el query es nulo
-    if(query.length ===0){
+  getPlacesByQuery( query: string = '' ) {
+
+    if ( query.length === 0 ) {
       this.isLoadingPlaces = false;
       this.places = [];
-      return
+      return;
     }
 
-    if(!this.useLocation)throw Error('No hay userLocation')
+    if ( !this.useLocation ) throw Error('No hay userLocation');
+
     this.isLoadingPlaces = true;
 
-    this.placesApi.get<PlacesResponse>(`/${ query}.json`,{
+    this.placesApi.get<PlacesResponse>(`/${ query }.json`, {
       params: {
         proximity: this.useLocation.join(',')
       }
     })
-    .subscribe( resp =>{
+      .subscribe( resp => {
+        this.isLoadingPlaces = false;
+        this.places = resp.features;
 
-      console.log(resp.features)
+        this.mapService.createMarkersFromPlaces( this.places, this.useLocation! );
+      });
 
-      this.isLoadingPlaces = false;
-      this.places = resp.features;
-
-
-      this.mapService.createMarkersFromPlaces( this.places, this.useLocation! );
-
-    })
   }
 
 
-    deletePlaces(){
-      this.places = [];
-    }
-
-
+  deletePlaces() {
+    this.places = [];
+  }
 
 
 }

@@ -18,29 +18,28 @@ export class MapViewComponent implements AfterViewInit{
   ){}
 
   ngAfterViewInit(): void {
-    const defaultLocation: [number, number] = [-74.006, 40.7128]; // Example: New York City
-
-    const userLocation = this.placesService.useLocation || defaultLocation;
+    if ( !this.placesService.useLocation ) throw Error('No hay placesService.userLocation');
 
     const map = new Map({
-      container: this.mapDivElement.nativeElement, // container ID
-      style: 'mapbox://styles/mapbox/streets-v11', // style URL
-      center: this.placesService.useLocation, // starting position [lng, lat]
-      zoom: 14, // starting zoom
+      container: this.mapDivElement.nativeElement,
+      style: 'mapbox://styles/mapbox/light-v10', // style URL
+      center: this.placesService.useLocation,
+      zoom: 14,
     });
 
     const popup = new Popup()
       .setHTML(`
         <h6>Aquí estoy</h6>
-        <span> Estoy en este lugar del mundo</span>
-        `);
+        <span>Estoy en este lugar del mundo</span>
+      `);
 
-    new Marker({  color: 'red'})
-    .setLngLat( userLocation )
-    .setPopup( popup )
-    .addTo( map )
+    new Marker({ color: 'red' })
+      .setLngLat( this.placesService.useLocation )
+      .setPopup( popup )
+      .addTo( map )
 
-    this.mapService.setMap(map);
+    this.mapService.setMap( map );
+
   }
 
 }

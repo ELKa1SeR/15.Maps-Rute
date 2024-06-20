@@ -28,8 +28,10 @@ export class SearchResultsComponent {
 
 
   flyTo( place: Feature ) {
+    this.selectedId = place.id;
+
     const [ lng, lat ] = place.center;
-    this.mapService.flyTo([ lng, lat]);
+    this.mapService.flyTo([ lng, lat ]);
   }
 
   getDirections(place: Feature) {

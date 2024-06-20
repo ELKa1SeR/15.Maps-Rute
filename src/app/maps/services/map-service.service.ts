@@ -33,42 +33,45 @@ export class MapService {
       })
   }
 
-  createMarkersFromPlaces(places: Feature[], userLocation: [number, number]){
+  createMarkersFromPlaces( places: Feature[], userLocation: [number, number] ) {
 
-    if( !this.map) throw Error('Mapa no inicializado');
+    if ( !this.map ) throw Error('Mapa no inicializado');
 
-    this.markers.forEach( marker => marker.remove())
+
+    this.markers.forEach( marker => marker.remove() );
     const newMarkers = [];
 
-    for (const place of places){
-      const [lng,lat]= place.center;
+    for (const place of places) {
+      const [ lng, lat ] = place.center;
       const popup = new Popup()
-      .setHTML(`
-        <h6>${ place.text }</h6>
-        <span>${ place.place_name }</span>
+        .setHTML(`
+          <h6>${ place.text }</h6>
+          <span>${ place.place_name }</span>
         `);
 
-        const newMarker = new Marker()
-          .setLngLat([lng, lat])
-          .setPopup(popup)
-          .addTo( this.map );
+      const newMarker = new Marker()
+        .setLngLat([lng, lat])
+        .setPopup( popup )
+        .addTo( this.map );
 
-        newMarkers.push( newMarker )
+      newMarkers.push( newMarker );
     }
 
     this.markers = newMarkers;
 
-    if( places.length === 0) return;
+    if( places.length === 0 ) return;
 
-      // limites del mapa
-      const bounds = new LngLatBounds();
-        newMarkers.forEach(marker => bounds.extend( marker.getLngLat())) ;
+    // Limites del mapa
+    const bounds = new LngLatBounds();
+    newMarkers.forEach( marker => bounds.extend( marker.getLngLat() ) );
+    bounds.extend( userLocation );
 
-      this.map.fitBounds(bounds, {
-        padding: 200
-      })
+    this.map.fitBounds(bounds, {
+      padding: 200
+    })
 
   }
+
   getRouteBetweenPoints( start: [number, number], end: [number, number] ) {
 
     this.directionsApiClient.get<DirectionsResponse>(`/${ start.join(',') };${ end.join(',') }`)

@@ -1,1 +1,2 @@
-export { PlacesApiClient} from './placesApiCliente';
+export { DirectionsApiClient } from './directionsApiClient';
+export { PlacesApiClient } from './placesApiCliente';

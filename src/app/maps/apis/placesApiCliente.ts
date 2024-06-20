@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Language } from "../interfaces/places";
+
 import { environment } from "../../../enviroments/environment";
 import { __param } from "tslib";
 
@@ -16,11 +16,11 @@ export class PlacesApiClient extends HttpClient {
     super(handler);
   }
 // para hacer tu http personalizado
-  public override get<T>(url: string, option:{
-    params?: HttpParams | {
+public override get<T>( url: string, options: {
+  params?: HttpParams | {
       [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-    };
-  } ){
+  };
+}) {
 
     url = this.baseUrl+url;
     return super.get<T>( url, {
@@ -28,7 +28,7 @@ export class PlacesApiClient extends HttpClient {
         limit: 5,
         Language: 'es',
         access_tokken: environment.apiKey,
-        ...option.params
+        ...options.params
       }
     });
   }
